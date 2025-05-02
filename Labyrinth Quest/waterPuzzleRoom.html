@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Labyrinth Quest!</title>
+<link rel="icon" href="./images/favicon.ico">
+<link rel="stylesheet" href="stylesheet.css">
+</head>
+<body onload="playerDetails()">
+
+<script>
+	function playerDetails(){
+		var name = (localStorage.getItem("pname"));
+		document.getElementById("playerName").innerHTML = name;
+		
+		//Remembers page address
+		localStorage.setItem("mapID","WaterPuzzleRoom");
+		
+		//Checks if player has a hammer:
+		if(localStorage.getItem("hasHammer") == 1){
+			document.getElementById("hammer").style.display = "inherit";	
+		} else {
+			document.getElementById("hammer").style.display = "none";		
+		}
+		
+		//Checks if player has a key:
+		if(localStorage.getItem("hasKey") == 1){
+			document.getElementById("key").style.display = "inherit";	
+		} else {
+			document.getElementById("key").style.display = "none";		
+		}
+		
+		//Checks if player has a ruby:
+		if(localStorage.getItem("hasRuby") == 1){
+			document.getElementById("ruby").style.display = "inherit";	
+		} else {
+			document.getElementById("ruby").style.display = "none";	
+		}
+		
+		//Checks if player has a sword:
+		if(localStorage.getItem("hasSword") == 1){
+			document.getElementById("sword").style.display = "inherit";	
+		} else {
+			document.getElementById("sword").style.display = "none";		
+		}
+		
+		//Checks if player has a torch:
+		if(localStorage.getItem("hasTorch") == 1){
+			document.getElementById("torch").style.display = "inherit";	
+		} else {
+			document.getElementById("torch").style.display = "none";		
+		}
+		
+		//Checks if player has a spray:
+		if(localStorage.getItem("hasSpray") == 1){
+			document.getElementById("spray").style.display = "inherit";	
+		} else {
+			document.getElementById("spray").style.display = "none";		
+		}
+		
+		//Checks if player has a book:
+		if(localStorage.getItem("hasBook") == 1){
+			document.getElementById("book").style.display = "inherit";	
+		} else {
+			document.getElementById("book").style.display = "none";		
+		}
+	}
+	
+</script>
+
+<style>
+
+#glass5{
+	rotate: 0deg;
+}
+
+#glass5.tube {
+  height: 260px;
+  width: 50px;
+  background-color: #dbe1e3;
+  border: 3px solid black;
+  position: absolute;
+  bottom:15%;
+  left:30%;
+  border-radius: 0px 0px 25px 25px;
+  }
+  
+  
+  #glass3{
+	rotate: 0deg;
+  }
+  
+  #glass3.tube{
+	height: 160px;
+	width: 50px;
+	background-color: #dbe1e3;
+	border: 3px solid black;
+	position: absolute;
+	bottom:40%;
+	left:60%;
+	border-radius: 0px 0px 25px 25px;
+  }
+  
+  
+  
+  
+  #water5.water{
+	height: 0px;
+	width: 50px;
+	background-color: blue;
+	opacity:0.5;
+	position: fixed;
+	bottom: 0%;
+	border-radius: 0px 0px 25px 25px;
+  }
+  
+  #water3.water{
+	height: 0px;
+	width: 50px;
+	background-color: blue;
+	opacity:0.5;
+	position: fixed;
+	bottom: 0%;
+	border-radius: 0px 0px 25px 25px;
+  }
+  
+  
+</style>
+
+<script>
+
+	angle5 = 0;
+	initAngle5 = 0;
+	angle3 = 0;
+	initAngle3 = 0;
+	waterLevel3 = 0;
+	waterLevel5 = 0;
+	let waterSound = new Audio('sounds/cartoon-liquid-pouring-sfx.wav');
+	
+function rotate5(){
+	let id = null;
+  const elem = document.getElementById("glass5");  
+	
+	initAngle5 = angle5;
+	clearInterval(id);
+	id = setInterval(frame, 10);
+	//Only plays water sound effect is the glass actually has water in it.
+	if(getWaterLevel5() > 0){
+		waterSound.play();
+	}
+	
+	function frame() {
+		if (angle5 == (initAngle5 + 45)) {
+			clearInterval(id);
+			initAngle5 = angle5;
+			undo5();
+			
+			//If glass3 would overflow...
+			if(getWaterLevel3() + getWaterLevel5() > 150){
+				
+				//Set glass5 to whatever should be left over
+				setWaterLevel5((getWaterLevel5() + getWaterLevel3()) - 150);
+				//Set glass3 to the max
+				setWaterLevel3(150);
+				
+			} else {
+				//if glass3 can fully contain water5...
+				setWaterLevel3(getWaterLevel5() + getWaterLevel3());
+				//glass5 will be empty
+				setWaterLevel5(0);
+			}
+		
+		} else {
+		angle5++; 
+		elem.setAttribute("style", "transform: rotate(" + angle5 + "deg)");
+		}
+	}
+	
+	function undo5(){
+		initAngle5 = angle5;
+		clearInterval(id);
+		id = setInterval(frame, 10);
+		function frame() {
+			if (angle5 == (initAngle5 - 45)) {
+				clearInterval(id);
+				initAngle35 = angle5;
+			} else {
+				angle5--; 
+				elem.setAttribute("style", "transform: rotate(" + angle5 + "deg)");
+			}
+		}
+	}
+
+}
+
+function rotate3(){
+	let id = null;
+  const elem = document.getElementById("glass3");  
+	initAngle3 = angle3;
+	clearInterval(id);
+	id = setInterval(frame, 10);
+	//Only plays water sound effect is the glass actually has water in it.
+	if(getWaterLevel3() > 0){
+		waterSound.play();
+	}
+	
+	function frame() {
+		if (angle3 == (initAngle3 - 45)) {
+		clearInterval(id);
+		initAngle3 = angle3;
+		undo3();
+		//If glass5 would overflow...
+			if(getWaterLevel3() + getWaterLevel5() > 250){
+				
+				//Set glass3 to whatever should be left over
+				setWaterLevel3((getWaterLevel5() + getWaterLevel3()) - 250);
+				//Set glass5 to the max
+				setWaterLevel5(250);
+				
+			} else {
+				//if glass5 can fully contain water3...
+				setWaterLevel5(getWaterLevel5() + getWaterLevel3());
+				//glass3 will be empty
+				setWaterLevel3(0);
+				checkForWin();
+			}
+		} else {
+		angle3--; 
+		elem.setAttribute("style", "transform: rotate(" + angle3 + "deg)");
+		}
+	}
+	
+	function undo3(){
+		initAngle3 = angle3;
+		clearInterval(id);
+		id = setInterval(frame, 10);
+		function frame() {
+			if (angle3 == (initAngle3 + 45)) {
+				clearInterval(id);
+				initAngle3 = angle3;
+			} else {
+				angle3++; 
+				elem.setAttribute("style", "transform: rotate(" + angle3 + "deg)");
+			}
+		}
+	}
+	
+
+}
+
+function setWaterLevel3(waterLVL){
+		document.getElementById("water3").style.height = waterLVL + "px";
+		
+		waterLevel3 = waterLVL;
+		
+}
+
+function setWaterLevel5(waterLVL){
+		document.getElementById("water5").style.height = waterLVL + "px";
+		waterLevel5 = waterLVL;
+
+}
+
+function getWaterLevel3(){
+	
+	return waterLevel3;
+}
+
+function getWaterLevel5(){
+
+	return waterLevel5;
+	
+}
+
+function checkForWin(){
+
+	if(getWaterLevel5() == 200){
+		waterPuzzleWin();
+	}
+
+}
+
+</script>
+
+
+<div class="sidebar" >
+  
+  <div class="sidebarPlayer">
+		<h3 class="sidebarHeader">Player:</h3>
+		<br>
+		<h3 class="sidebarHeader"><span id="playerName"></span> the Hero</h3>
+		<br>
+		<img src="images/hero.png" style="border: 1px solid black; height:60%; left: 0; background-color: grey;">
+  </div>
+  <div class="sidebarInvContainer">
+	<h3 class="sidebarHeader">Inventory:</h3>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="hammer" src="images/hammer.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="key" src="images/key.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="ruby" src="images/Ruby.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="sword" src="images/Sword.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="torch" src="images/Torch.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="spray" src="images/MimicSpray.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="book" src="images/CyclopsTranslateBook.png" style="top:0%; left: 0%;"></button></div>
+  </div>
+</div>
+
+
+<div class = "gameMain">
+	<h1>Labyrinth Quest</h1>
+	<audio controls src="sounds/bardstale.mp3" style="position: absolute; left: 65%; top: 2%; min-width: 5%; z-index: 5;"></audio>
+	<div class="gameImage">
+		<img src="images/maps/WaterPuzzleRoom.png" style="z-index: -1">
+		<div class = "gameBackground" id="gameBackground" style="display: none;">
+			<div class="tube" id="glass5" onclick="rotate5()"><div class="water" id = "water5"></div></div>
+			<div class="tube" id="glass3" onclick="rotate3()"><div class="water" id = "water3"></div></div>
+			<button type="button" onclick="setWaterLevel3(150)">Fill 3</button>
+			<button type="button" onclick="setWaterLevel3(0)">Empty 3</button>
+			<button type="button" onclick="setWaterLevel5(250)">Fill 5</button>
+			<button type="button" onclick="setWaterLevel5(0)">Empty 5</button>
+		</div>
+		
+		<div class="navArrow" style="rotate: 330deg; top:10%; left:40%;">
+			<a href="boxRoom.html"><img src="images/arrow.png" class="arrow"></a>
+		</div>
+		<div class="navArrow" style="rotate:270deg; top:40%; left:3%;">
+			<a href="entrance.html"><img src="images/arrow.png" class="arrow"></a>
+		</div>
+		
+		<div class= "mapElement" style="rotate: 10deg; width:35%; height:60%; left: 60%; top: 20%;">
+			<img src="images/Cupboard.png" style="">
+				<button onclick="checkWaterPuzzle()" style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none; z-index: 1;"></button>
+			</img>
+		</div>
+	</div>
+	<div class="gameText">
+	
+		<div class="gamePortrait">
+			<img id="Speaker" src="images/Narrator.png">
+		</div>
+		
+		<div class="gameDialog">
+			<h3 id = "Speech"></h3>
+		</div>
+	
+	</div>
+
+</div>
+
+<script>
+
+	function hideShowMiniGame() {
+		var miniGame = document.getElementById("gameBackground");
+		var arrows = document.getElementsByClassName("navArrow");
+		if (miniGame.style.display === "none") {
+			miniGame.style.display = "inherit";
+			for (let i = 0; i < arrows.length; i++) {
+				arrows[i].style.display = "none";
+			}
+			document.getElementById("Speech").innerHTML = "Looks like I need to use this 5ml glass and 3ml glass to measure exactly 4ml...";
+			var img = document.getElementById("Speaker");
+			img.src="images/Hero.png";
+		} else {
+			miniGame.style.display = "none";
+			for (let i = 0; i < arrows.length; i++) {
+				arrows[i].style.display = "inherit";
+			}
+			document.getElementById("Speech").innerHTML = "";
+			var img = document.getElementById("Speaker");
+			img.src="images/Narrator.png";
+		}
+		
+		
+	}
+	
+	function checkWaterPuzzle(){
+		if(localStorage.getItem("hasKey") == "1"){
+			document.getElementById("Speech").innerHTML = "I already got the key.";
+			var img = document.getElementById("Speaker");
+			img.src="images/Hero.png";
+		} else {
+			hideShowMiniGame();
+		}
+	
+	}
+	
+	function waterPuzzleWin(){
+		hideShowMiniGame();
+		document.getElementById("Speech").innerHTML = "As you fill the water to the correct level, a secret panel opens and reveals to you a key. <br><br> You stuff it in your pocket.";
+		var img = document.getElementById("Speaker");
+		img.src="images/Narrator.png";
+		localStorage.setItem("hasKey","1");
+		playerDetails();
+	
+	
+	}
+	
+</script>
+
+
+</body>

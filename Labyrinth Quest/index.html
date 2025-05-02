@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Labyrinth Quest!</title>
+	<link rel="icon" href="./images/favicon.ico">
+	<link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body>
+
+<h1>Labyrinth Quest!</h1>
+
+<button class="open-button" onclick="openForm()">New Game</button>
+
+<button class="open-button" style="position: fixed; bottom: 40%;" onclick="loadGame()">Continue Game</button>
+
+
+<div class="form-popup" id="myForm">
+  <form action="introduction.html" class="form-container">
+    <h1>Enter name:</h1>
+
+    <label for="name"><b>Name</b></label>
+    <input type="text" placeholder="Enter Name" name="pname" id="pname" required>
+
+
+    <button type="submit" class="btn" onclick="submitForm()">Begin</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
+
+<script>
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+function submitForm(){
+	localStorage.clear();
+	var playerName = document.getElementById("pname");
+	localStorage.setItem("pname", playerName.value);
+}
+
+function loadGame(){
+
+	var lastPage = localStorage.getItem("mapID");
+	if(lastPage == null){
+		alert("No save game found!");
+	} else {
+		
+		window.location.href = lastPage + '.html';
+	
+	}
+	
+
+}
+	
+</script>
+
+</body>
+
+<style>
+{box-sizing: border-box;}
+
+
+.open-button {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 50%;
+  left: 40%;
+  width: 280px;
+}
+
+
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 50%;
+  left:38%;
+  border: 3px solid black;
+  z-index: 9;
+}
+
+
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: #A9A9A9;
+}
+
+
+.form-container input[type=text] {
+  width: 75%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+
+.form-container input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+.form-container .btn {
+  background-color: black;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+}
+
+
+.form-container .cancel {
+  background-color: red;
+}
+
+
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+}
