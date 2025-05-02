@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Labyrinth Quest!</title>
+<link rel="icon" href="./images/favicon.ico">
+<link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body onload="playerDetails()">
+
+<script>
+	function playerDetails(){
+		var name = (localStorage.getItem("pname"));
+		document.getElementById("playerName").innerHTML = name;
+		
+		//Remembers page address
+		localStorage.setItem("mapID","cyclopsRoom");
+		
+		//Checks if player has a hammer:
+		if(localStorage.getItem("hasHammer") == 1){
+			document.getElementById("hammer").style.display = "inherit";	
+		} else {
+			document.getElementById("hammer").style.display = "none";		
+		}
+		
+		//Checks if player has a key:
+		if(localStorage.getItem("hasKey") == 1){
+			document.getElementById("key").style.display = "inherit";	
+		} else {
+			document.getElementById("key").style.display = "none";		
+		}
+		
+		//Checks if player has a ruby:
+		if(localStorage.getItem("hasRuby") == 1){
+			document.getElementById("ruby").style.display = "inherit";	
+		} else {
+			document.getElementById("ruby").style.display = "none";	
+		}
+		
+		//Checks if player has a sword:
+		if(localStorage.getItem("hasSword") == 1){
+			document.getElementById("sword").style.display = "inherit";	
+		} else {
+			document.getElementById("sword").style.display = "none";		
+		}
+		
+		//Checks if player has a torch:
+		if(localStorage.getItem("hasTorch") == 1){
+			document.getElementById("torch").style.display = "inherit";	
+		} else {
+			document.getElementById("torch").style.display = "none";		
+		}
+		
+		//Checks if player has a spray:
+		if(localStorage.getItem("hasSpray") == 1){
+			document.getElementById("spray").style.display = "inherit";	
+		} else {
+			document.getElementById("spray").style.display = "none";		
+		}
+		
+		//Checks if player has a book:
+		if(localStorage.getItem("hasBook") == 1){
+			document.getElementById("book").style.display = "inherit";	
+		} else {
+			document.getElementById("book").style.display = "none";		
+		}
+	}
+	
+</script>
+
+<div class="sidebar" >
+  
+  <div class="sidebarPlayer">
+		<h3 class="sidebarHeader">Player:</h3>
+		<br>
+		<h3 class="sidebarHeader"><span id="playerName"></span> the Hero</h3>
+		<br>
+		<img src="images/hero.png" style="border: 1px solid black; height:60%; left: 0; background-color: grey;">
+  </div>
+  <div class="sidebarInvContainer">
+	<h3 class="sidebarHeader">Inventory:</h3>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="hammer" src="images/hammer.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="key" src="images/key.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="ruby" src="images/Ruby.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="sword" src="images/Sword.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="torch" src="images/Torch.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="spray" src="images/MimicSpray.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="book" src="images/CyclopsTranslateBook.png" style="top:0%; left: 0%;"></button></div>
+  </div>
+</div>
+
+<div class = "gameMain">
+	<h1>Labyrinth Quest</h1>
+	<audio controls src="sounds/bardstale.mp3" style="position: absolute; left: 65%; top: 2%; min-width: 5%; z-index: 5;"></audio>
+	<div class="gameImage">
+		<img src="images/maps/CyclopsRoom.png" style="z-index: -1">
+		<div class = "gameBackground" style="display: none;" id="gameBackground">
+			<div style="position: relative; height: 50%; width: 50%;  top: 10%; left: 0%;"><img src="images/rock.png" style="top:0%; left: 0%; rotate: 90deg;"></div>
+			<div style="position: relative; height: 50%; width: 50%;  top: -40%; left: 50%; transform: scaleX(-1);"><img src="images/rock.png" style="top:0%; left: 0%; rotate: 90deg;"></div>
+			<div class = "hand">
+				<div><button id="rock" onclick="checkForWinRPS('Rock')" style = "position: relative;"><img src="images/rock.png" style="top:0%; left: 0%;"></button></div>
+				<div><button id="paper" onclick="checkForWinRPS('Paper')" style = "position: relative;"><img src="images/paper.png" style="top:0%; left: 0%;"></button></div>
+				<div><button id="scissors" onclick="checkForWinRPS('Scissors')" style = "position: relative;"><img src="images/scissors.png" style="top:0%; left: 0%;"></button></div>
+			</div>
+		</div>
+		
+		<div class = "mapElement" style="top:3%; left: 60%; width: 15%; height: 45%;">
+			<img src="images/cyclops.png">
+				<button onclick="cyclopsDialog()" style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none; z-index: 1;"></button>
+			</img>
+		</div>
+		
+		<div class="navArrow" style="rotate: 180deg; top:75%; left:30%;" id="arrow1">
+			<a href="boxRoom.html"><img src="images/arrow.png" class="arrow"></a>
+		</div>
+		<div class="navArrow" style="rotate:270deg; top:10%; left:10%;" id="arrow2">
+			<a href="exit.html"><img src="images/arrow.png" class="arrow"></a>
+		</div>
+	</div>
+	<div class="gameText">
+	
+		<div class="gamePortrait">
+			<img id="Speaker" src="images/Narrator.png">
+		</div>
+		
+		<div class="gameDialog">
+			<h3 id = "Speech"></h3>
+		</div>
+	
+	</div>
+
+</div>
+
+<script>
+
+function cyclopsDialog(){
+		document.getElementById("Speech").innerHTML = 'Geia, pós páei?' + '<br>' +  "<button onclick='checkBook()' style='position: absolute; height:25%; left: 17%; bottom: 5%; z-index: 1;'>Continue</button>";
+		var img = document.getElementById("Speaker");
+		img.src="images/Cyclops.png";
+}
+	
+function cyclopsDialog2(){
+		document.getElementById("Speech").innerHTML = 'Uuuuhhh...  <br> (If only I knew what he was saying...)';
+		var img = document.getElementById("Speaker");
+		img.src="images/Hero.png";
+}
+	
+function checkBook(){
+	
+	if(localStorage.getItem("hasBook") == "1"){
+	
+		
+		if(localStorage.getItem("RPSShortcut") == "1"){
+		
+			askPlayRPS();
+		
+		} else {
+		
+			cyclopsDialog3();
+		
+		}
+	
+	} else {
+	
+		cyclopsDialog2();
+	
+	}
+	
+}
+
+function cyclopsDialog3(){
+
+	document.getElementById("Speech").innerHTML = 'You pull out your translation book and leaf through the pages. <br> It seems he just asked you how things are going' +  "<button onclick='cyclopsDialog4()' style='position: absolute; height:25%; left: 17%; bottom: 5%; z-index: 1;'>Continue</button>";
+	var img = document.getElementById("Speaker");
+	img.src="images/Narrator.png";
+
+}
+
+function cyclopsDialog4(){
+
+	document.getElementById("Speech").innerHTML = 'Ahem... Den eínai kakó. Ti kánete? (Not bad, how are you?)' +  "<button onclick='cyclopsDialog5()' style='position: absolute; height:25%; left: 17%; bottom: 5%; z-index: 1;'>Continue</button>";
+	var img = document.getElementById("Speaker");
+	img.src="images/Hero.png";
+
+}
+
+function cyclopsDialog5(){
+
+	document.getElementById("Speech").innerHTML = 'E, den boró na paraponethó. Thélete na paíxete éna paichnídi? Tha sou dóso éna épathlo an kerdíseis. (Eh, cant complain. You want to play a game? Ill give you a prize if you win.)' +  "<button onclick='cyclopsDialog6()' style='position: absolute; height:25%; left: 17%; bottom: 5%; z-index: 1;'>Continue</button>";
+	var img = document.getElementById("Speaker");
+	img.src="images/Cyclops.png";
+
+}
+
+function cyclopsDialog6(){
+
+	document.getElementById("Speech").innerHTML = 'Eínai to paichnídi tou laoú mou. To léme vrácho, chartí, psalídi. (It is the game of my people. We call it rock, paper, scissors.)' +  "<button onclick='askPlayRPS()' style='position: absolute; height:25%; left: 17%; bottom: 5%; z-index: 1;'>Continue</button>";
+	var img = document.getElementById("Speaker");
+	img.src="images/Cyclops.png";
+	localStorage.setItem("RPSShortcut","1");
+
+}
+
+function askPlayRPS(){
+
+	document.getElementById("Speech").innerHTML = "Play Rock, Paper, Scissors? <br><br>" + "<button onclick='playRPS()' style='position: absolute; height:25%; left: 17%; bottom: 5%; z-index: 1;'>Yes</button>" + "<button onclick='clearDialog()' style='position: absolute; height:25%; left: 25%; bottom: 5%; z-index: 1;'>No</button>";
+	var img = document.getElementById("Speaker");
+	img.src = "images/Narrator.png";
+	
+}
+
+function clearDialog(){
+
+	document.getElementById("Speech").innerHTML = "";
+	var img = document.getElementById("Speaker");
+	img.src = "images/Narrator.png";
+
+}
+
+function playRPS(){
+
+	clearDialog();
+	document.getElementById("gameBackground").style.display = "inherit";	
+	document.getElementById("arrow1").style.display = "none";
+	document.getElementById("arrow2").style.display = "none";
+
+}
+
+function checkForWinRPS(playedHand){
+
+	//Opponent plays a random hand - Rock = 0, Paper = 1, Scissors = 2
+	var opponentHand = Math.floor(Math.random() * 3);
+	
+	if(playedHand == "Rock"){
+
+		//Rock vs Rock: Draw
+		if(opponentHand == "0"){
+			RPSDraw();
+		}
+		//Rock vs Paper: Player loss
+		if(opponentHand == "1"){
+			RPSLoss();
+		}
+		//Rock vs Scissors: Player win
+		if(opponentHand == "2"){
+			RPSWin();
+		}
+		
+
+	}
+	if(playedHand == "Paper"){
+	
+		//Paper vs Rock: Player win
+		if(opponentHand == "0"){
+			RPSWin();
+		}
+		//Paper vs Paper: Draw
+		if(opponentHand == "1"){
+			RPSDraw();
+		}
+		//Paper vs Scissors: Player loss
+		if(opponentHand == "2"){
+			RPSLoss();
+		}
+
+
+	}
+	if(playedHand == "Scissors"){
+	
+		//Scissors vs Rock: Player loss
+		if(opponentHand == "0"){
+			RPSLoss();
+		}
+		//Scissors vs Paper: Player win
+		if(opponentHand == "1"){
+			RPSWin();
+		}
+		//Scissors vs Scissors: Draw
+		if(opponentHand == "2"){
+			RPSDraw();
+		}
+
+
+	}
+
+}
+
+function RPSDraw(){
+
+	document.getElementById("gameBackground").style.display = "none";
+	document.getElementById("arrow1").style.display = "inherit";
+	document.getElementById("arrow2").style.display = "inherit";
+	document.getElementById("Speech").innerHTML = "(A draw, too bad!)";
+	var img = document.getElementById("Speaker");
+	img.src = "images/Cyclops.png";
+
+}
+
+function RPSWin(){
+
+	document.getElementById("gameBackground").style.display = "none";
+	document.getElementById("arrow1").style.display = "inherit";
+	document.getElementById("arrow2").style.display = "inherit";
+	if(localStorage.getItem("beatRPS") == "1"){
+	
+		document.getElementById("Speech").innerHTML = "(Ah! You win again! Sorry, I'm all out of prizes!)";
+		var img = document.getElementById("Speaker");
+		img.src = "images/Cyclops.png";
+	
+	
+	} else {
+	
+		document.getElementById("Speech").innerHTML = "(Ah! You win! Here, take this weird red stone I found as a prize!)";
+		var img = document.getElementById("Speaker");
+		img.src = "images/Cyclops.png";
+		localStorage.setItem("hasRuby","1");
+		localStorage.setItem("beatRPS","1");
+		playerDetails();
+	
+	}
+
+}
+
+function RPSLoss(){
+
+	document.getElementById("gameBackground").style.display = "none";
+	document.getElementById("arrow1").style.display = "inherit";
+	document.getElementById("arrow2").style.display = "inherit";
+	document.getElementById("Speech").innerHTML = "(Ah! I win this one, friend!)";
+	var img = document.getElementById("Speaker");
+	img.src = "images/Cyclops.png";
+
+}
+
+</script>
+
+
+</body>
+
+<style>
+
+
+
+button{
+
+	background-color: black;
+	border: 3px solid grey;
+	width:100px;
+	height:100px;
+	color: white;
+	
+
+}
+
+
+.hand{
+
+	display: flex;
+	padding: 10px 10px;
+
+	position: absolute;
+	bottom:0%;
+	left: 0%;
+	
+}
+
+
+
+
+
+</style>

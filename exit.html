@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Labyrinth Quest!</title>
+<link rel="icon" href="./images/favicon.ico">
+<link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body onload="playerDetails()">
+
+<script>
+	function playerDetails(){
+		var name = (localStorage.getItem("pname"));
+		document.getElementById("playerName").innerHTML = name;
+		
+		//Remembers page address
+		localStorage.setItem("mapID","exit");
+		
+		//Checks if player has a hammer:
+		if(localStorage.getItem("hasHammer") == 1){
+			document.getElementById("hammer").style.display = "inherit";
+			document.getElementById("hammerOnMap").style.display = "none";				
+		} else {
+			document.getElementById("hammer").style.display = "none";
+			document.getElementById("hammerOnMap").style.display = "inherit";			
+		}
+		
+		//Checks if player has a key:
+		if(localStorage.getItem("hasKey") == 1){
+			document.getElementById("key").style.display = "inherit";	
+		} else {
+			document.getElementById("key").style.display = "none";		
+		}
+		
+		//Checks if player has a ruby:
+		if(localStorage.getItem("hasRuby") == 1){
+			document.getElementById("ruby").style.display = "inherit";	
+		} else {
+			document.getElementById("ruby").style.display = "none";	
+		}
+		
+		//Checks if player has a sword:
+		if(localStorage.getItem("hasSword") == 1){
+			document.getElementById("sword").style.display = "inherit";	
+		} else {
+			document.getElementById("sword").style.display = "none";		
+		}
+		
+		//Checks if player has a torch:
+		if(localStorage.getItem("hasTorch") == 1){
+			document.getElementById("torch").style.display = "inherit";	
+		} else {
+			document.getElementById("torch").style.display = "none";		
+		}
+		
+		//Checks if player has a spray:
+		if(localStorage.getItem("hasSpray") == 1){
+			document.getElementById("spray").style.display = "inherit";	
+		} else {
+			document.getElementById("spray").style.display = "none";		
+		}
+		
+		//Checks if player has a book:
+		if(localStorage.getItem("hasBook") == 1){
+			document.getElementById("book").style.display = "inherit";	
+		} else {
+			document.getElementById("book").style.display = "none";		
+		}
+	}
+	
+</script>
+
+
+<div class="sidebar" >
+  
+  <div class="sidebarPlayer">
+		<h3 class="sidebarHeader">Player:</h3>
+		<br>
+		<h3 class="sidebarHeader"><span id="playerName"></span> the Hero</h3>
+		<br>
+		<img src="images/hero.png" style="border: 1px solid black; height:60%; left: 0; background-color: grey;">
+  </div>
+  <div class="sidebarInvContainer">
+	<h3 class="sidebarHeader">Inventory:</h3>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="hammer" src="images/hammer.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="key" src="images/key.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="ruby" src="images/Ruby.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="sword" src="images/Sword.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="torch" src="images/Torch.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="spray" src="images/MimicSpray.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="book" src="images/CyclopsTranslateBook.png" style="top:0%; left: 0%;"></button></div>
+  </div>
+</div>
+
+<div class = "gameMain">
+	<h1>Labyrinth Quest</h1>
+	<audio controls src="sounds/bardstale.mp3" style="position: absolute; left: 65%; top: 2%; min-width: 5%; z-index: 5;"></audio>
+	<div class="gameImage">
+		<img src="images/maps/Exit.png">
+		<div class="navArrow" style="rotate:90deg; top:60%; left:90%;">
+			<a href="cyclopsRoom.html">
+					<img src="images/arrow.png" class="arrow" style="z-index: 1;">
+					</img>
+			</a>
+		</div>
+		<div class="navArrow" style="top:15%; left:37%;">
+			<a href="#">
+				<button onclick="doorDialog()" style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none; z-index: 0;"><img src="images/arrow.png" class="arrow"></button>
+			</a>
+		</div>
+		<div class= "mapElement" style="width:5%; height:10%; left: 10%; top: 60%; rotate: 20deg;"  id="hammerOnMap">
+			<img src="images/Hammer.png" style="">
+				<button onclick="acquireHammer()" style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none; z-index: 1;"></button>
+			</img>
+		</div>
+	</div>
+	<div class="gameText">
+	
+		<div class="gamePortrait">
+			<img id="Speaker" src="images/Narrator.png">
+		</div>
+		
+		<div class="gameDialog">
+			<h3 id = "Speech"></h3>
+		</div>
+	
+	</div>
+
+</div>
+
+</body>
+
+<script>
+
+function doorDialog(){
+		document.getElementById("Speech").innerHTML = "Looks like somebody left the exit door unlocked... I should probably rescue the Princess first though...";
+		var img = document.getElementById("Speaker");
+		img.src="images/Hero.png";
+	}
+	
+function acquireHammer(){
+	
+	document.getElementById("Speech").innerHTML = "You find a hammer. If only all tasks were so easy...<br><br> You put the hammer in your pocket.";
+	var img = document.getElementById("Speaker");
+	img.src="images/Narrator.png";
+	localStorage.setItem("hasHammer","1");
+	playerDetails();
+	
+}
+
+</script>
+
+</body>
+

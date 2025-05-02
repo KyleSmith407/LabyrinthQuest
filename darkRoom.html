@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Labyrinth Quest!</title>
+<link rel="icon" href="./images/favicon.ico">
+<link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<body onload="playerDetails()">
+
+<script>
+	function playerDetails(){
+		var name = (localStorage.getItem("pname"));
+		document.getElementById("playerName").innerHTML = name;
+		
+		//Remembers page address
+		localStorage.setItem("mapID","darkRoom");
+		
+		//Checks if player has a hammer:
+		if(localStorage.getItem("hasHammer") == 1){
+			document.getElementById("hammer").style.display = "inherit";	
+		} else {
+			document.getElementById("hammer").style.display = "none";		
+		}
+		
+		//Checks if player has a key:
+		if(localStorage.getItem("hasKey") == 1){
+			document.getElementById("key").style.display = "inherit";	
+		} else {
+			document.getElementById("key").style.display = "none";		
+		}
+		
+		//Checks if player has a ruby:
+		if(localStorage.getItem("hasRuby") == 1){
+			document.getElementById("ruby").style.display = "inherit";	
+		} else {
+			document.getElementById("ruby").style.display = "none";	
+		}
+		
+		//Checks if player has a sword:
+		if(localStorage.getItem("hasSword") == 1){
+			document.getElementById("sword").style.display = "inherit";	
+		} else {
+			document.getElementById("sword").style.display = "none";		
+		}
+		
+		//Checks if player has a torch:
+		if(localStorage.getItem("hasTorch") == 1){
+			document.getElementById("torch").style.display = "inherit";	
+		} else {
+			document.getElementById("torch").style.display = "none";		
+		}
+		
+		//Checks if player has a spray:
+		if(localStorage.getItem("hasSpray") == 1){
+			document.getElementById("spray").style.display = "inherit";	
+		} else {
+			document.getElementById("spray").style.display = "none";		
+		}
+		
+		//Checks if player has a book:
+		if(localStorage.getItem("hasBook") == 1){
+			document.getElementById("book").style.display = "inherit";	
+		} else {
+			document.getElementById("book").style.display = "none";		
+		}
+		
+		checkTorch();
+	}
+	
+	function checkTorch(){
+	
+		if(localStorage.getItem("hasTorch") == "1"){
+			
+			document.getElementById("Speech").innerHTML = "You use your torch to light up this room, turning it from pitch black to acceptably visible."
+			var img = document.getElementById("Speaker");
+			img.src="images/Narrator.png";
+			
+			
+		} else{
+		
+			document.getElementById("Speech").innerHTML = "It's too dark... I can't see a thing!"
+			var img = document.getElementById("Speaker");
+			img.src="images/Hero.png";
+			document.getElementById("map").style.display = "none";
+			document.getElementById("ChestContainer").style.display = "none";
+			document.getElementById("gameImage").style.backgroundColor = "black";
+		
+		}
+	
+	}
+	
+</script>
+
+
+<div class="sidebar" >
+  
+  <div class="sidebarPlayer">
+		<h3 class="sidebarHeader">Player:</h3>
+		<br>
+		<h3 class="sidebarHeader"><span id="playerName"></span> the Hero</h3>
+		<br>
+		<img src="images/hero.png" style="border: 1px solid black; height:60%; left: 0; background-color: grey;">
+  </div>
+  <div class="sidebarInvContainer">
+	<h3 class="sidebarHeader">Inventory:</h3>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="hammer" src="images/hammer.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="key" src="images/key.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="ruby" src="images/Ruby.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="sword" src="images/Sword.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="torch" src="images/Torch.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="spray" src="images/MimicSpray.png" style="top:0%; left: 0%;"></button></div>
+	<div class="sidebarItem"><button style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none;"><img id="book" src="images/CyclopsTranslateBook.png" style="top:0%; left: 0%;"></button></div>
+  </div>
+</div>
+
+<div class = "gameMain">
+	<h1>Labyrinth Quest</h1>
+	<audio controls src="sounds/bardstale.mp3" style="position: absolute; left: 65%; top: 2%; min-width: 5%; z-index: 5;"></audio>
+	<div class="gameImage" id="gameImage">
+		<img src="images/maps/DarkRoom.png" id="map">
+		<div class="navArrow" style="rotate:180deg; top:80%; left:40%;">
+			<a href="statueRoom.html"><img src="images/arrow.png" class="arrow"></a>
+		</div>
+		
+		<div class= "mapElement" style="width:25%; height:50%; left: 35%; top: 20%;" id="ChestContainer">
+			<img src="images/Chest.png" style="" id="Chest" >
+				<button onclick="mimicChecker()" style="position: relative; height: 100%; width: 100%; outline: none; background-color: Transparent; border: none; z-index: 1;"></button>
+			</img>
+		</div>
+	</div>
+	<div class="gameText">
+	
+		<div class="gamePortrait">
+			<img id="Speaker" src="images/Narrator.png">
+		</div>
+		
+		<div class="gameDialog">
+			<h3 id = "Speech"></h3>
+		</div>
+	
+	</div>
+
+</div>
+
+<script>
+
+
+
+function mimicChecker(){
+	
+	var mimicOut = localStorage.getItem("mimicChecked");
+	if(mimicOut == 1){
+		
+		if(localStorage.getItem("mimicSprayed") == "1"){
+		
+			document.getElementById("Speech").innerHTML = "Better not get too close... Just in case..."
+			var img2 = document.getElementById("Speaker");
+			img2.src="images/Hero.png";
+		
+		} else {
+			
+			sprayCheck();
+		
+		}
+		
+	} else {
+		mimicDialog();
+	}
+}
+
+function mimicDialog(){
+		document.getElementById("Speech").innerHTML = "You go to open up the chest... only to discover that the chest itself is a terrifying mimic!"  + '<br>' +  "<button onclick='mimicDialog2()' style='position: absolute; height:25%; left: 17%; bottom: 5%; z-index: 1;'>Continue</button>";
+		var img = document.getElementById("Speaker");
+		img.src="images/Narrator.png";
+		var img2 = document.getElementById("Chest");
+		img2.src="images/Mimic.png";
+		localStorage.setItem("mimicChecked", "1");
+	}
+	
+function mimicDialog2(){
+	
+	if(localStorage.getItem("hasSpray") == "1"){
+		document.getElementById("Speech").innerHTML = "By the gods, a mimic! Good thing I found that anti-mimic spray earlier!"
+		var img = document.getElementById("Speaker");
+		img.src="images/Hero.png";
+	
+	} else {
+	
+		document.getElementById("Speech").innerHTML = "By the gods! I better stay away until I find a means to defeat this thing."
+		var img = document.getElementById("Speaker");
+		img.src="images/Hero.png";
+	
+	}
+	
+}
+
+function sprayCheck(){
+
+	if(localStorage.getItem("hasSpray") == "1"){
+	
+		document.getElementById("Speech").innerHTML = "You spray the mimic with the appropriately named 'Anti-Mimic Spray'. The creature collapses, stunned long enough for you to reach in and take the contents from inside: <br>A simple iron sword."
+		var img = document.getElementById("Speaker");
+		img.src="images/Narrator.png";
+		localStorage.setItem("hasSword","1");
+		localStorage.setItem("mimicSprayed","1");
+
+	
+	} else {
+	
+		document.getElementById("Speech").innerHTML = "Better not get too close... Just in case..."
+		var img2 = document.getElementById("Speaker");
+		img2.src="images/Hero.png";
+	
+	}
+	
+}
+
+</script>
+
+</body>

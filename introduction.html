@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Labyrinth Quest!</title>
+<link rel="icon" href="./images/favicon.ico">
+<link rel="stylesheet" href="stylesheet.css">
+</head>
+
+<script>
+	function playerDetails(){
+	
+		var v1 = (localStorage.getItem("pname"));
+		document.getElementById("demo").innerHTML = v1;
+		
+	}
+	
+</script>
+
+<body onload="playerDetails()">
+
+
+
+<div class="sidebar" onload="newFun()">
+  <h3 class="sidebarHeader">Menu</h3>
+  <a href="#" class="sidebarItem">Link 1</a>
+  <a href="#" class="sidebarItem">Link 2</a>
+  <a href="#" class="sidebarItem">Link 3</a>
+</div>
+
+<div class = "gameMain">
+
+<h1>Placeholder - Intro Page</h1>
+
+<h2>Welcome,  <span id="demo"></span>, to the labyrinth</h2>
+
+<h2>You were sent here with a simple mission: Defeat the fiercesome minotaur and rescue the princess.</h2>
+<h2>Yeah, 'simple mission' they say... Easier said than done...</h2>
+<h2>But it was a direct request from the King and very much a request of the 'do it or else' kind and so you now find yourself standing in front of the gates to the labyrinth</h2>
+
+<h2><a href="entrance.html">Enter the Labyrinth</a></h2>
+<button type="button" onclick="test()">Test</button>
+
+</div>
+
+<script>
+function test(){
+	document.getElementsByClassName("gameMain").innerHTML = "New text!";
+}
+</script>
+
+</body>
