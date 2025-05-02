@@ -16,10 +16,10 @@
 	function playerDetails(){
 	
 		
-		
-		
 		var name = (localStorage.getItem("pname"));
 		document.getElementById("playerName").innerHTML = name;
+
+		localStorage.setItem("mapID","entrance");
 		
 		//Checks if player has a hammer:
 		if(localStorage.getItem("hasHammer") == 1){
